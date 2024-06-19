@@ -1,0 +1,30 @@
+stages:
+  training:
+    cmd: python main.py
+    deps:
+      - src/pipeline/train_pipeline.py
+      - src/components/data_ingestion.py
+      - src/components/data_transformation.py
+      - src/components/model_trainer.py
+      - src/components/model_evaluation.py
+
+    outs:
+      - artifacts/Data_Ingestion_Artifacts/data.csv
+      - artifacts/Data_Transformation_Artifacts/train_transform.csv
+      - artifacts/Data_Transformation_Artifacts/test_transform.csv
+      - artifacts/Data_Transformation_Artifacts/preprocessor.joblib
+      - artifacts/Model_Trainer_Artifacts/models/catboost_model.pkl
+      - artifacts/Model_Trainer_Artifacts/models/gradientboost_model.pkl
+      - artifacts/Model_Trainer_Artifacts/models/lgb_model.pkl
+      - artifacts/Model_Trainer_Artifacts/models/randomforest_model.pkl
+      - artifacts/Model_Trainer_Artifacts/model_names.json
+      - artifacts/Model_Evaluation_Artifacts/test_metrics.json
+      - artifacts/Model_Evaluation_Artifacts/best_model_metrics.json
+      - artifacts/Model_Evaluation_Artifacts/best_model.pkl
+      - artifacts/Model_Evaluation_Artifacts/train_metrics.json
+
+  # prediction: 
+  #   cmd: streamlit run app.py
+  #   deps: 
+  #     - models/best_model.pkl
+  #     - models/preprocessor.joblib

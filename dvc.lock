@@ -1,0 +1,78 @@
+schema: '2.0'
+stages:
+  training:
+    cmd: python main.py
+    deps:
+    - path: src/components/data_ingestion.py
+      hash: md5
+      md5: 4bbad87781f856060ea0d020945fa904
+      size: 1319
+    - path: src/components/data_transformation.py
+      hash: md5
+      md5: 5192a49a265029bf40c768eedbc0f8a7
+      size: 5532
+    - path: src/components/model_evaluation.py
+      hash: md5
+      md5: a3af598eb8402d0cd203a6b52dd95562
+      size: 8347
+    - path: src/components/model_trainer.py
+      hash: md5
+      md5: 8883936bb92baacaba2717e303fad135
+      size: 7971
+    - path: src/pipeline/train_pipeline.py
+      hash: md5
+      md5: 76a3b86fc1c58fe18212b11fdc8dcff7
+      size: 4198
+    outs:
+    - path: artifacts/Data_Ingestion_Artifacts/data.csv
+      hash: md5
+      md5: 83fd7008aa6f743b72e41906a9b6490c
+      size: 57215
+    - path: artifacts/Data_Transformation_Artifacts/preprocessor.joblib
+      hash: md5
+      md5: 672d895c753ca6b65203268dd8a7c844
+      size: 4375
+    - path: artifacts/Data_Transformation_Artifacts/test_transform.csv
+      hash: md5
+      md5: 322bf5531d1b9c9e7307b806fbb11357
+      size: 17758
+    - path: artifacts/Data_Transformation_Artifacts/train_transform.csv
+      hash: md5
+      md5: 38710669e73f9a58e073b200b5add82b
+      size: 71275
+    - path: artifacts/Model_Evaluation_Artifacts/best_model.pkl
+      hash: md5
+      md5: c20dedff8c04fe58ad93c14b22eadb87
+      size: 142348
+    - path: artifacts/Model_Evaluation_Artifacts/best_model_metrics.json
+      hash: md5
+      md5: 927effa3c6626f73a5e2e6e6077558c2
+      size: 265
+    - path: artifacts/Model_Evaluation_Artifacts/test_metrics.json
+      hash: md5
+      md5: eb72ab544ab844b7172437befb306fc2
+      size: 453
+    - path: artifacts/Model_Evaluation_Artifacts/train_metrics.json
+      hash: md5
+      md5: f45275e0d7ec0e615c4751df95ec1909
+      size: 450
+    - path: artifacts/Model_Trainer_Artifacts/model_names.json
+      hash: md5
+      md5: 837f40a2f3387734c3471b64dc35b426
+      size: 77
+    - path: artifacts/Model_Trainer_Artifacts/models/catboost_model.pkl
+      hash: md5
+      md5: 018803becc3aac94d2b198d25264c811
+      size: 55199973
+    - path: artifacts/Model_Trainer_Artifacts/models/gradientboost_model.pkl
+      hash: md5
+      md5: bcd8b3e4912a2319128e835d009a7be0
+      size: 141572
+    - path: artifacts/Model_Trainer_Artifacts/models/lgb_model.pkl
+      hash: md5
+      md5: c1b3b7e15637b04ea57720de562eb30b
+      size: 279863
+    - path: artifacts/Model_Trainer_Artifacts/models/randomforest_model.pkl
+      hash: md5
+      md5: a7b6a23d4f6b61b3f2b72b59a495579c
+      size: 10356779

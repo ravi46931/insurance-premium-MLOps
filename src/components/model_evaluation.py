@@ -2,6 +2,10 @@ import os
 import sys
 import time
 import json
+import dagshub
+import mlflow
+import mlflow.sklearn
+from mlflow.models import infer_signature
 import pickle
 import pandas as pd
 import warnings
@@ -163,6 +167,36 @@ class ModelEvaluation:
             os.makedirs("models", exist_ok=True)
             with open("models/best_model.pkl", "wb") as file:
                 pickle.dump(best_model, file)
+
+            # dagshub.init(repo_owner='ravikumar46931', repo_name='insurance-premium-MLOps', mlflow=True)
+
+            # mlflow.set_experiment("Model Evaluation")
+
+            # with mlflow.start_run():
+
+            #     # Log the hyperparameters
+            #     mlflow.log_params(params)
+
+            #     # log the metrics
+            #     mlflow.log_metric("rmse", rmse)
+            #     mlflow.log_metric("r2", r2)
+            #     mlflow.log_metric("mae", mae)
+
+            #     # Set a tag that we can use to remind ourselves what this run was for
+            #     mlflow.set_tag("Evaluation Info", "This has model evaluation")
+
+            #     # Infer the model signature
+            #     signature = infer_signature(X_test, model.predict(X_test))
+
+            #     # Log the model
+            #     model_info = mlflow.sklearn.log_model(
+            #         sk_model=model,
+            #         artifact_path="ml_model",
+            #         signature=signature,
+            #         input_example=X_test.iloc[[0]],
+            #         registered_model_name="best_model",
+            #     )
+
 
             model_evaluation_artifact = ModelEvaluationArtifact(
                 self.model_evaluation_config.BEST_MODEL_FILE_PATH
