@@ -1,0 +1,5 @@
+{
+    "template": "template.py",
+    "envDir": "venv",
+    "requirementsFile": "requirements.txt"
+}

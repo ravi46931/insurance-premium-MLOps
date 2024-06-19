@@ -1,0 +1,17 @@
+mkdocs
+dvc
+numpy 
+pandas
+colorama
+# ipykernel
+mlflow==2.2.2
+dagshub
+black
+pytest
+scikit-learn
+xgboost
+lightgbm
+catboost
+streamlit
+
+-e .
