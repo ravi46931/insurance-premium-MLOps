@@ -76,3 +76,19 @@ stages:
       hash: md5
       md5: a7b6a23d4f6b61b3f2b72b59a495579c
       size: 10356779
+  prediction:
+    cmd: python src\pipeline\prediction_pipeline.py
+    deps:
+    - path: models/best_model.pkl
+      hash: md5
+      md5: c20dedff8c04fe58ad93c14b22eadb87
+      size: 142348
+    - path: models/preprocessor.joblib
+      hash: md5
+      md5: 672d895c753ca6b65203268dd8a7c844
+      size: 4375
+    outs:
+    - path: artifacts\Prediction\prediction.json
+      hash: md5
+      md5: 274936d3c240380dab36440f152f2464
+      size: 222

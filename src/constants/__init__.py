@@ -20,3 +20,6 @@ TRAIN_METRICS = "train_metrics.json"
 TEST_METRICS = "test_metrics.json"
 BEST_MODEL_METRICS = "best_model_metrics.json"
 BEST_MODEL = "best_model.pkl"
+
+PREDICTION_PATH = "Prediction"
+PREDICTION_FILE = "prediction.json"

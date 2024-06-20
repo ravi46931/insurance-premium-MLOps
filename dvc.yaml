@@ -23,6 +23,14 @@ stages:
       - artifacts/Model_Evaluation_Artifacts/best_model.pkl
       - artifacts/Model_Evaluation_Artifacts/train_metrics.json
 
+  prediction:
+    cmd: python src\pipeline\prediction_pipeline.py
+    deps:
+      - models/best_model.pkl
+      - models/preprocessor.joblib
+    outs: 
+      - artifacts\Prediction\prediction.json
+
   # prediction: 
   #   cmd: streamlit run app.py
   #   deps: 
