@@ -1,5 +1,7 @@
 artifacts
 catboost_info
+mlruns/
+mlruns
 venv
 logs
 *.egg-info

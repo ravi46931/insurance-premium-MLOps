@@ -48,7 +48,8 @@ class ModelTrainer:
             print(f"Best model for {model_name}:{best_model}")
             end_time = time.time()
             print(f"Time taken for {model_name}: {(end_time-start_time):.2f} SECONDS\n")
-            return model
+            execution_time = round(end_time - start_time,2)
+            return model, best_params, execution_time
 
         except Exception as e:
             raise CustomException(e, sys)
@@ -60,7 +61,8 @@ class ModelTrainer:
             model.fit(cat_df, Y_df)
             end_time = time.time()
             print(f"Time taken for {model_name}: {(end_time-start_time):.2f} SECONDS\n")
-            return model
+            execution_time = round(end_time - start_time,2)
+            return model, execution_time
 
         except Exception as e:
             raise CustomException(e, sys)
@@ -112,12 +114,26 @@ class ModelTrainer:
                 "Random Forest": None,
                 "Gradient Boost": None,
             }
+            best_params_grid_search = {
+                "Ridge": None,
+                "Lasso": None,
+                "Polynomial": None,
+                "Random Forest": None,
+                "Gradient Boost": None,
+            }
+            execution_time_grid_search = {
+                "Ridge": None,
+                "Lasso": None,
+                "Polynomial": None,
+                "Random Forest": None,
+                "Gradient Boost": None,
+            }
 
             for name, model in tune_models_grid_search.items():
-                train_model_grid_search[name] = self.fit_model_grid_search(
+                train_model_grid_search[name], best_params_grid_search[name], execution_time_grid_search[name] = self.fit_model_grid_search(
                     model, cat_df, Y_df, model_name=name
                 )
-
+               
             tune_model = {
                 "Linear": linreg,
                 "XGBoost": xgbreg,
@@ -131,11 +147,17 @@ class ModelTrainer:
                 "LGB": None,
                 "CatBoost": None,
             }
+            train_model_execution_time = {
+                "Linear": None,
+                "XGBoost": None,
+                "LGB": None,
+                "CatBoost": None,
+            }
 
             for name, model in tune_model.items():
-                train_model[name] = self.fit_model(model, cat_df, Y_df, model_name=name)
-
-            return train_model_grid_search, train_model
+                train_model[name], train_model_execution_time[name] = self.fit_model(model, cat_df, Y_df, model_name=name)
+                
+            return train_model_grid_search, train_model, best_params_grid_search, execution_time_grid_search, train_model_execution_time
 
         except Exception as e:
             raise CustomException(e, sys)
@@ -158,7 +180,7 @@ class ModelTrainer:
             for name, mae_value in top_models.items():
                 print(f"{name} regression on training set MAE: {mae_value}")
 
-            return top_models
+            return top_models, mae_val
 
         except Exception as e:
             raise CustomException(e, sys)
@@ -171,9 +193,69 @@ class ModelTrainer:
             )
             X = df.drop(columns=["expenses", "Unnamed: 0"], axis=1)
             y = df[["expenses"]].squeeze()
-            train_model_grid_search, train_model = self.model_trainer(X, y)
+            train_model_grid_search, train_model, best_params_grid_search, execution_time_grid_search, train_model_execution_time = self.model_trainer(X, y)
             models = {**train_model_grid_search, **train_model}
-            top_models = self.best_models(X, y, models)
+            top_models, mae_val = self.best_models(X, y, models)
+            execution_time = {**execution_time_grid_search, **train_model_execution_time}
+            
+            # Model training tracking with mlflow
+
+            # dagshub.init(repo_owner='ravikumar46931', repo_name='insurance-premium-MLOps', mlflow=True)
+
+            mlflow.set_experiment("Model Trainer")
+            df_test = pd.read_csv(
+                self.data_transformation_artifact.test_transform_file_path
+            )
+            X_test = df_test.drop(columns=["expenses", "Unnamed: 0"], axis=1)
+            y_test = df_test[["expenses"]].squeeze()
+
+            for name, model in models.items():
+                with mlflow.start_run(run_name=name):
+                    time = execution_time[name]
+                    params = model.get_params()
+                    mae = mae_val[name]
+                    mlflow.log_metric("execution_time_sec", time)
+                    mlflow.log_metric("mae", mae)
+                    mlflow.log_params(params)
+
+                    # Infer the model signature
+                    signature = infer_signature(X_test, model.predict(X_test))
+
+                    if name=="XGBoost":
+                        mlflow.xgboost.log_model(
+                            xgb_model=model,
+                            artifact_path='xgb_ml_model',
+                            signature=signature,
+                            input_example=X_test.iloc[[0]],
+                            registered_model_name="xgb_model"
+                        )
+                    elif name=="LGB":
+                        mlflow.lightgbm.log_model(
+                            lgb_model=model,
+                            artifact_path='lgb_ml_model',
+                            signature=signature,
+                            input_example=X_test.iloc[[0]],
+                            registered_model_name="lgb_model",
+                        )
+                    elif name=="CatBoost":
+                        mlflow.catboost.log_model(
+                            cb_model=model,
+                            artifact_path='catboost_ml_model',
+                            signature=signature,
+                            input_example=X_test.iloc[[0]],
+                            registered_model_name="catboost_model"
+                        )
+
+                    else:
+                        # Log the model
+                        model_info = mlflow.sklearn.log_model(
+                            sk_model=model,
+                            artifact_path=f"{name}_ml_model",
+                            signature=signature,
+                            input_example=X_test.iloc[[0]],
+                            registered_model_name=name
+                        )
+
             # Save the model using pickle
             import pickle
 

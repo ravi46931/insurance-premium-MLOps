@@ -73,7 +73,7 @@ class ModelEvaluation:
                 "r2_score_value": r2_score_values[best_model_key],
             }
 
-            return best_model, best_model_key, metrics, best_model_metrics
+            return best_model, best_model_key, metrics, best_model_metrics, metrics
 
         except Exception as e:
             raise CustomException(e, sys)
@@ -134,6 +134,7 @@ class ModelEvaluation:
                 best_model_name,
                 test_metrics,
                 best_model_metrics_test,
+                metrics_test
             ) = self.model_evaluation(model_names, models)
             best_model_metrics_train = {
                 "mae": mae[best_model_name],
@@ -146,6 +147,59 @@ class ModelEvaluation:
                 "Test Set": best_model_metrics_test,
                 "Training Set": best_model_metrics_train,
             }
+            
+            # Track on the dagshub 
+            # dagshub.init(repo_owner='ravikumar46931', repo_name='insurance-premium-MLOps', mlflow=True)
+
+            mlflow.set_experiment("Model Evaluation")
+            with mlflow.start_run(run_name='evaluate_best_model'):
+                mlflow.log_param("Best Model", best_model_name)
+                mlflow.log_metric("testset mae", best_model_metrics_test['mae'])
+                mlflow.log_metric("testset mse", best_model_metrics_test['mse'])
+                mlflow.log_metric("testset r2 score", best_model_metrics_test['r2_score_value'])
+                mlflow.log_metric("trainset mae", best_model_metrics_train['mae'])
+                mlflow.log_metric("trainset mse", best_model_metrics_train['mse'])
+                mlflow.log_metric("trainset r2 score", best_model_metrics_train['r2_score_value'])
+                mlflow.log_params(best_model.get_params())
+                signature = infer_signature(X, best_model.predict(X))
+
+                if best_model_name=="XGBoost":
+                    mlflow.xgboost.log_model(
+                        xgb_model=model,
+                        artifact_path='best_ml_model',
+                        signature=signature,
+                        input_example=X.iloc[[0]],
+                        registered_model_name="best_xgb_model"
+                    )
+                elif best_model_name=="LGB":
+                    mlflow.lightgbm.log_model(
+                        lgb_model=model,
+                        artifact_path='best_ml_model',
+                        signature=signature,
+                        input_example=X.iloc[[0]],
+                        registered_model_name="best_lgb_model",
+                    )
+                elif best_model_name=="CatBoost":
+                    mlflow.catboost.log_model(
+                        cb_model=model,
+                        artifact_path='best_ml_model',
+                        signature=signature,
+                        input_example=X.iloc[[0]],
+                        registered_model_name="best_catboost_model"
+                    )
+
+                else:
+                    # Log the model
+                    model_info = mlflow.sklearn.log_model(
+                        sk_model=model,
+                        artifact_path=f"best_ml_model",
+                        signature=signature,
+                        input_example=X.iloc[[0]],
+                        registered_model_name=f"best_{best_model_name}_model"
+                    )
+
+
+
 
             # Saving the test set metrics
             with open(
@@ -170,32 +224,11 @@ class ModelEvaluation:
 
             # dagshub.init(repo_owner='ravikumar46931', repo_name='insurance-premium-MLOps', mlflow=True)
 
-            # mlflow.set_experiment("Model Evaluation")
 
             # with mlflow.start_run():
 
-            #     # Log the hyperparameters
-            #     mlflow.log_params(params)
-
-            #     # log the metrics
-            #     mlflow.log_metric("rmse", rmse)
-            #     mlflow.log_metric("r2", r2)
-            #     mlflow.log_metric("mae", mae)
-
             #     # Set a tag that we can use to remind ourselves what this run was for
             #     mlflow.set_tag("Evaluation Info", "This has model evaluation")
-
-            #     # Infer the model signature
-            #     signature = infer_signature(X_test, model.predict(X_test))
-
-            #     # Log the model
-            #     model_info = mlflow.sklearn.log_model(
-            #         sk_model=model,
-            #         artifact_path="ml_model",
-            #         signature=signature,
-            #         input_example=X_test.iloc[[0]],
-            #         registered_model_name="best_model",
-            #     )
 
 
             model_evaluation_artifact = ModelEvaluationArtifact(
