@@ -26,13 +26,12 @@ stages:
   prediction:
     cmd: python src\pipeline\prediction_pipeline.py
     deps:
-      - models/best_model.pkl
-      - models/preprocessor.joblib
+      # - models/best_model.pkl
+      # - models/preprocessor.joblib
+
+      - artifacts/Model_Evaluation_Artifacts/best_model.pkl
+      - artifacts/Data_Transformation_Artifacts/preprocessor.joblib
     outs: 
       - artifacts\Prediction\prediction.json
 
-  # prediction: 
-  #   cmd: streamlit run app.py
-  #   deps: 
-  #     - models/best_model.pkl
-  #     - models/preprocessor.joblib
+  
