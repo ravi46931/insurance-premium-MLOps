@@ -149,7 +149,7 @@ class ModelEvaluation:
             }
             
             # Track on the dagshub 
-            # dagshub.init(repo_owner='ravikumar46931', repo_name='insurance-premium-MLOps', mlflow=True)
+            dagshub.init(repo_owner='ravikumar46931', repo_name='insurance-premium-MLOps', mlflow=True)
 
             mlflow.set_experiment("Model Evaluation")
             with mlflow.start_run(run_name='evaluate_best_model'):

@@ -200,7 +200,7 @@ class ModelTrainer:
             
             # Model training tracking with mlflow
 
-            # dagshub.init(repo_owner='ravikumar46931', repo_name='insurance-premium-MLOps', mlflow=True)
+            dagshub.init(repo_owner='ravikumar46931', repo_name='insurance-premium-MLOps', mlflow=True)
 
             mlflow.set_experiment("Model Trainer")
             df_test = pd.read_csv(
