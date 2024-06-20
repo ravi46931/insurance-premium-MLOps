@@ -18,17 +18,15 @@ stages:
       - artifacts/Model_Trainer_Artifacts/models/lgb_model.pkl
       - artifacts/Model_Trainer_Artifacts/models/randomforest_model.pkl
       - artifacts/Model_Trainer_Artifacts/model_names.json
+      - artifacts/Model_Evaluation_Artifacts/best_model.pkl
+    metrics:
       - artifacts/Model_Evaluation_Artifacts/test_metrics.json
       - artifacts/Model_Evaluation_Artifacts/best_model_metrics.json
-      - artifacts/Model_Evaluation_Artifacts/best_model.pkl
       - artifacts/Model_Evaluation_Artifacts/train_metrics.json
 
   prediction:
     cmd: python src\pipeline\prediction_pipeline.py
     deps:
-      # - models/best_model.pkl
-      # - models/preprocessor.joblib
-
       - artifacts/Model_Evaluation_Artifacts/best_model.pkl
       - artifacts/Data_Transformation_Artifacts/preprocessor.joblib
     outs: 
