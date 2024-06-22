@@ -22,7 +22,7 @@ jobs:
           python-version: 3.x  # Specify the Python version you want to use
       - uses: actions/cache@v2
         with:
-          key: ${{ github. ref } }
+          key: ${{ github.ref }}
           path: .cache
       - run: pip install mkdocs—material
       - run: |
