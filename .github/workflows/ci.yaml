@@ -27,7 +27,7 @@ jobs:
         run: mkdocs build -f docs/mkdocs.yml
 
       - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v4
+        run: mkdocs gh-deploy --force
         # with:
         #   github_token: ${{ secrets.GITHUB_TOKEN }}
         #   publish_dir: ./site  # Default build directory for MkDocs is 'site'
