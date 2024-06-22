@@ -27,7 +27,9 @@ jobs:
         run: mkdocs build -f docs/mkdocs.yml
 
       - name: Deploy to GitHub Pages
-        run: mkdocs gh-deploy --force
+        run: |
+          cd docs
+          mkdocs gh-deploy --force
         # with:
         #   github_token: ${{ secrets.GITHUB_TOKEN }}
         #   publish_dir: ./site  # Default build directory for MkDocs is 'site'
