@@ -2,4 +2,4 @@ site_name: Insurance Premium Docs
 nav:
   - Home: index.md
   - About: getting-started.md
-# theme: readthedocs
+theme: readthedocs
