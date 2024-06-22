@@ -1,0 +1,13 @@
+__pycache__
+artifacts
+catboost_info
+experiment
+insurane_premium.egg-info
+logs
+mlruns
+venv
+template.py
+config.json
+init_setup.ps1
+implement.md
+demo.py
