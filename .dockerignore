@@ -1,6 +1,24 @@
+# Exclude everything by default
+*
+
+# Allow only the necessary files and directories
+!app.py
+!models/best_model.pkl
+!models/preprocessor.joblib
+!prediction.py
+!requirements_app.txt
+!Dockerfile
+
+# Ensure directories are included
+!models/
+
+# Manually ignore
 __pycache__
 artifacts
 catboost_info
+
+
+
 experiment
 insurane_premium.egg-info
 logs
@@ -11,3 +29,10 @@ config.json
 init_setup.ps1
 implement.md
 demo.py
+data
+docs
+src/
+src
+tests
+.dvcignore
+.env

@@ -2,7 +2,12 @@ import warnings
 import streamlit as st
 
 warnings.filterwarnings("ignore")
-from src.pipeline.prediction_pipeline import PredictionPipeline
+
+## uncomment the following line when using locally
+# from src.pipeline.prediction_pipeline import PredictionPipeline
+
+# to dockerize
+from prediction import PredictionPipeline
 
 # Set the title of the app
 st.title("Insurance Premium Prediction App")
