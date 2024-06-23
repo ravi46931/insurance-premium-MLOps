@@ -113,6 +113,7 @@ config.json
 
 ## 📈 Models 
 <hr>
+
 - Linear Regression 
 - Ridge Regression 
 - Lasso Regression 
