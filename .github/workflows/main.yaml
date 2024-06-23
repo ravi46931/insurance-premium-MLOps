@@ -6,6 +6,30 @@ on:
       - main 
 
 jobs:
+  Build docs:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.x  
+      - uses: actions/cache@v2
+        with:
+          key: ${{ github.ref }}
+          path: .cache
+      - run: |
+          python -m pip install --upgrade pip
+
+      - run: pip install mkdocs
+      - run: |
+          cd docs
+          mkdocs build -f mkdocs.yml
+          mkdocs gh-deploy --force
+
   
   push_to_registry:
     name: Push Docker image to Docker hub
@@ -28,10 +52,6 @@ jobs:
         uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
         with:
           images: ${{ secrets.REGISTRY }}/${{ secrets.IMAGE_NAME }}
-          labels: |
-            org.opencontainers.image.title=My Docker Image
-            org.opencontainers.image.description=This is a description of my Docker image.
-            org.opencontainers.image.category=Example Category
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v2
