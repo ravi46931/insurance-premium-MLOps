@@ -17,6 +17,10 @@ DagsHub Experiment tarcking: https://dagshub.com/ravikumar46931/insurance-premiu
 
 This is a machine learning application designed for predicting insurance premiums. The project leverages a variety of tools and frameworks to streamline data management, experiment tracking, and model deployment.
 
+## Demo
+<hr>
+https://github.com/rku8/exp/assets/164355804/86718370-f0e8-4c95-96bc-363655ae4e82
+
 ## 🛠️ Tools Utilized
 <hr>
 
