@@ -33,8 +33,8 @@ if (-not (CommandExists "python")) {
 }
 
 # Creating Project structure
-Write-Host "Creating project structure"
-python $template
+# Write-Host "Creating project structure" # Uncomment these two lines when create new project
+# python $template
 
 # Create the virtual environment if it doesn't exist
 if (-not (Test-Path $envDir)) {

@@ -7,11 +7,12 @@
 
 # Insurance Premium Prediction Application
 
-## Overview
+## Overview<hr>
 
 This is a machine learning application designed for predicting insurance premiums. The project leverages a variety of tools and frameworks to streamline data management, experiment tracking, and model deployment.
 
-## Tools Utilized
+## 🛠️ Tools Utilized
+<hr>
 
 - **DVC (Data Version Control)**: Used for managing and versioning data pipeline.
 - **Git**: Version control system for tracking code changes.
@@ -19,41 +20,132 @@ This is a machine learning application designed for predicting insurance premium
 - **GitHub Actions Server**: Used for continuous integration and deployment.
 - **Dagshub**: Facilitates MLflow experiment tracking and DVC data pipeline.
 
-## Machine Learning Pipeline
+## 🛢️ Machine Learning Pipeline
+<hr>
 
-### Data Ingestion
+### Data Ingestion 📥
 
-The application ingests insurance premium data from the specified original data path and saves it into `artifacts/DataIngestionArtifacts`.
+The application ingests insurance premium data from the _data/insurance.csv_ data path and saves it into `artifacts/DataIngestionArtifacts`.
 
-### Data Transformation
+### Data Transformation 🔧
 
 Data undergoes transformation to prepare it for model training. Transformed data and preprocessing artifacts are saved into `artifacts/DataTransformationArtifacts`. Preprocessors are also stored in `models/`.
 
-### Model Training
+### Model Training 🤖
 
 Multiple machine learning models are trained:
-- Linear Regression
-- Ridge Regression
-- Lasso Regression
-- Polynomial Regression
-- Random Forest
-- Gradient Boosting
-- XGBoost
-- LightGBM
-- Catboost
+Linear Regression, Ridge Regression, Lasso Regression, Polynomial Regression, Random Forest,
+Gradient Boosting, XGBoost, LightGBM, Catboost.
+The top 4 performing models based on training metrics are selected. Both models and associated metrics are saved into `artifacts/ModelTrainerArtifacts`. __MLflow__ is used to track model parameters and metrics throughout this process.
 
-The top 4 performing models based on training metrics are selected. Both models and associated metrics are saved into `artifacts/ModelTrainerArtifacts`. MLflow is used to track model parameters and metrics throughout this process.
-
-### Model Evaluation
+### Model Evaluation 📊
 
 The best-performing model on test data is selected and saved into `artifacts/ModelEvaluationArtifacts` and `models/`. Model evaluation metrics are tracked using MLflow.
 
-### Streamlit App Deployment
+### Streamlit App Development 💻
 
-A Streamlit application is developed to allow users to input data and receive predictions from the selected model.
+A Streamlit application is developed to allow users to input data and receive predictions from the trained model.
 
-## Usage
+### Model Deployment 🚀
 
+The model is deployend on the __AWS EC2__ using __Docker__ and __Github Action Server__.
+
+## 📁 Directory Structure
+<hr>
+
+```bash
+📂.github/
+└── 📂workflows/
+      └── main.yaml
+📂docs/
+├── 📂docs/
+│     ├── index.md
+│     └── getting-started.md
+├── mkdocs.yml
+└── README.md
+📂src/
+├── init.py
+├── 📂components/
+│     ├── init.py
+│     ├── data_ingestion.py
+│     ├── data_transformation.py
+│     ├── model_trainer.py
+│     └── model_evaluation.py
+├── 📂constants/
+│     └── init.py
+├── 📂entity/
+│     ├── init.py
+│     ├── config_entity.py
+│     └── artifact_entity.py
+├── 📂pipeline/
+│     ├── init.py
+│     ├── training_pipeline.py
+│     └── prediction_pipeline.py
+├── 📂utils/
+│     ├── init.py
+│     └── utils.py
+├── 📂logger/
+│     └── init.py
+└── 📂exception/
+      └── init.py
+📂data/
+  └── insurance.csv
+📂experiment/
+  └── experiments.ipynb
+requirements.txt
+requirements_app.txt
+setup.py
+app.py
+main.py
+README.md
+implement.md
+.gitignore
+template.py
+prediction.py
+init_setup.ps1
+dvc.yaml
+Dockerfile
+demo.py
+config.json
+.dockerignore
+.dvcignore
+```
+
+## 📈 Models 
+<hr>
+- Linear Regression 
+- Ridge Regression 
+- Lasso Regression 
+- Polynomial Regression 
+- Random Forest
+- Gradient Boosting
+- XGBoost 
+- LightGBM 
+- Catboost
+
+
+## 🖥️ Installation
+<hr>
+
+### 🛠️ Requirements: 
+
+- Python 3.10
+- mkdocs
+- dvc
+- numpy 
+- pandas
+- colorama
+- mlflow==2.2.2
+- dagshub
+- scikit-learn
+- xgboost
+- lightgbm
+- catboost
+- streamlit
+
+
+## ⚙️ Setup
+<hr>
 To reproduce the model and run the application:
 
 1. Clone the repository:
@@ -61,75 +153,24 @@ To reproduce the model and run the application:
     `git clone <repository_url>`<br>
     `cd <repository_name>`
     
-2. Set up the environment:
+2. Set up the virtual environment and install the requirements:
 
-    `pip install -r requirements.txt`<br>
+    `./init_setup.ps1`<br>
 
-3. Run the Streamlit app:
+3. Execute the whole pipeline:
+
+    `python main.py`<br>
+    Now run the streamlit app.
+
+
+## 🎯 Inference demo
+<hr>
+
+1. Run the Streamlit app:
 
     `streamlit run app.py`
+2. Enter the input values and get prediction
 
-## Directory Structure
-
-```bash
-.github/
-└── workflows/
-├── .gitkeep
-└── ci.yaml
-src/
-├── init.py
-├── components/
-│ ├── init.py
-│ ├── data_ingestion.py
-│ ├── data_transformation.py
-│ ├── model_trainer.py
-│ └── model_evaluation.py
-├── constants/
-│ └── init.py
-├── entity/
-│ ├── init.py
-│ ├── config_entity.py
-│ └── artifact_entity.py
-├── pipeline/
-│ ├── init.py
-│ ├── training_pipeline.py
-│ └── prediction_pipeline.py
-├── utils/
-│ ├── init.py
-│ └── utils.py
-├── logger/
-│ └── init.py
-└── exception/
-└── init.py
-tests/
-├── unit/
-│ └── init.py
-└── integration/
-└── init.py
-docs/
-├── docs/
-│ ├── index.md
-│ └── getting-started.md
-├── mkdocs.yml
-└── README.md
-data/
-└── insurance.csv
-.env
-requirements.txt
-setup.py
-setup.cfg
-pyproject.toml
-tox.ini
-app.py
-main.py
-experiment/
-└── experiments.ipynb
-README.md
-implement.md
-.gitignore
-```
-
-## Additional Tools
-- Data Version Control (DVC): Tracks changes in datasets for reproducibility.
-- MLflow with Dagshub: Manages experiments, parameters, and metrics across the ML lifecycle.
-
+## Contributors 👨🏼‍💻
+<hr>
+- Ravi Kumar
