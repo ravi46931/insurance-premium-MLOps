@@ -19,7 +19,7 @@ This is a machine learning application designed for predicting insurance premium
 
 ## Demo
 <hr>
-https://github.com/rku8/exp/assets/164355804/86718370-f0e8-4c95-96bc-363655ae4e82
+![Demo Image](https://github.com/rku8/exp/assets/164355804/86718370-f0e8-4c95-96bc-363655ae4e82)
 
 ## 🛠️ Tools Utilized
 <hr>
