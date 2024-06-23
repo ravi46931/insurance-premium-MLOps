@@ -20,7 +20,7 @@ This is a machine learning application designed for predicting insurance premium
 ## Demo
 <hr>
 
-![Insurance-Premium-Streamlit-App](insgif1.gif)
+![Insurance-Premium-Streamlit-App](insgif.gif)
 
 ## 🛠️ Tools Utilized
 <hr>
