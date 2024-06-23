@@ -28,6 +28,10 @@ jobs:
         uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
         with:
           images: ${{ secrets.REGISTRY }}/${{ secrets.IMAGE_NAME }}
+          labels: |
+            org.opencontainers.image.title=My Docker Image
+            org.opencontainers.image.description=This is a description of my Docker image.
+            org.opencontainers.image.category=Example Category
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v2
