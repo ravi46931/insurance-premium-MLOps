@@ -60,6 +60,16 @@ A Streamlit application is developed to allow users to input data and receive pr
 ### Model Deployment 🚀
 
 The model is deployend on the __AWS EC2__ using __Docker__ and __Github Action Server__.
+## 📋 Model tracking with MLFlow
+<hr>
+
+![img](docs/docs/imgs/mlflow_exp.png)
+
+## 🖇️ Data pipeline tracking with DVC
+<hr> 
+
+![dvc_up](docs/docs/imgs/dvc_up.png)
+![dvc_up](docs/docs/imgs/dvc_down.png)
 
 ## 📁 Directory Structure
 <hr>

@@ -3,3 +3,6 @@ nav:
   - Home: index.md
   - About: getting-started.md
 theme: readthedocs
+markdown_extensions:
+  - attr_list
+  - md_in_html
