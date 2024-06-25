@@ -1,9 +1,9 @@
-dvc
+
 # Task: 
 
- 1. Complete the process of docker-compose.yaml file (Add both) 
+ 1. Complete the process of docker-compose.yaml file (Add both) [Notneed]
  2. Write the mkdocs and ci.yaml for the mkdocs [DONE]
- 3. Write the README file 
+ 3. Write the README file [DONE]
  4. Write the process of implementing the project (for self reference)
  5. Write the commands
  6. Arrage the link of all (e.g. github, dagshub etc)

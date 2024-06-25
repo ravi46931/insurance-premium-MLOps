@@ -53,6 +53,8 @@ The best-performing model on test data is selected and saved into `artifacts/Mod
 
 A Streamlit application is developed to allow users to input data and receive predictions from the trained model.
 
+![img](imgs/streamlit_app.png)
+
 ### Model Deployment 🚀
 
 The model is deployend on the __AWS EC2__ using __Docker__ and __Github Action Server__.

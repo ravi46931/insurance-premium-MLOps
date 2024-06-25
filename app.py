@@ -78,7 +78,7 @@ def isnumeric(num):
         return True
 
 
-if st.button("Submit Text"):
+if st.button("Predict Insurance"):
 
     bmi_flag = True
     gender_flag = True
